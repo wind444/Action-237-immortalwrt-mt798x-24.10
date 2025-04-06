@@ -22,8 +22,5 @@ sed -i 's/OpenWrt/AP-HanimmWrt/g' package/base-files/files/bin/config_generate
 # Modify filename, add date prefix
 sed -i 's|IMG_PREFIX:=|IMG_PREFIX:=AP-$(shell TZ="Asia/Shanghai" date +"%Y%m%d")-24.10|' include/image.mk
 
-# Modify opkg url, change mt7981 to filogic
-sed -i "s,mt7981,filogic,g" "package/base-files/files/etc/opkg/distfeeds.conf"
-
-# Modify opkg url, del passwall
-sed -i '/passwall/d' "package/base-files/files/etc/opkg/distfeeds.conf"
+# Insert two lines before the last line in 99-default-settings-chinese. For Modify opkg url, change mt7981 to filogic, del lines inlude passwall.
+sed -i '/^exit 0$/i sed -i "s,mt7981,filogic,g" "package/base-files/files/etc/opkg/distfeeds.conf"\nsed -i '\''/passwall/d'\'' "package/base-files/files/etc/opkg/distfeeds.conf"' package/emortal/default-settings/files/99-default-settings-chinese
