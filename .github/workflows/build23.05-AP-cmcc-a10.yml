@@ -10,7 +10,7 @@
 # See /LICENSE for more information.
 #
 
-name: Build 360T7 +mihomo
+name: RUN IN BRANCH 23.05! AP CMCC-A10 Build immortalwrt23.05 
 
 on:
   repository_dispatch:
@@ -20,10 +20,9 @@ env:
   REPO_URL: https://github.com/padavanonly/immortalwrt-mt798x-23.05
   REPO_BRANCH: openwrt-23.05
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: 360t7+mihomo.config
-  DIY_P1_SH: diy-part1-mhm.sh
-  DIY_P2_SH: diy-part2-6-1-mhm.sh
-  RELEASE_TXT: release-mhm.txt
+  CONFIG_FILE: 23.05-cmcc-a10-ap.config
+  DIY_P1_SH: diy-part1.sh
+  DIY_P2_SH: 2305-diy-part2-6-254-AP.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
@@ -75,7 +74,7 @@ jobs:
       run: |
         cd openwrt && ./scripts/feeds install -a
 
-         
+
     - name: Load custom configuration
       run: |
         [ -e files ] && mv files openwrt/files
@@ -141,13 +140,13 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Upload firmware to release
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@master
       if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: $RELEASE_TXT
+        body_path: release-ap.txt
         files: ${{ env.FIRMWARE }}/*
 
     - name: Delete workflow runs
@@ -160,7 +159,7 @@ jobs:
       uses: dev-drprasad/delete-older-releases@master
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
-        keep_latest: 5
+        keep_latest: 12
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

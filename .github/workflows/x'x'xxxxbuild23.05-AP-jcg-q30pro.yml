@@ -10,7 +10,7 @@
 # See /LICENSE for more information.
 #
 
-name: Build immortalwrt23.05 AP JCG-Q30Pro
+name: RUN IN BRANCH 23.05! AP JCG-Q30Pro Build immortalwrt23.05 
 
 on:
   repository_dispatch:
